@@ -29,25 +29,56 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		this.cellsPerRow = cpr;
 	
 		//2. Calculate the cell size.
+		int cellSize = WIDTH % cpr;
 		
 		//3. Initialize the cell array to the appropriate size.
-		
+		Cells = new Cell[cpr][cpr];
 		//3. Iterate through the array and initialize each cell.
 		//   Don't forget to consider the cell's dimensions when 
 		//   passing in the location.
+		int x = 0;
+		int y = 0;
+		for(int i = 0; i < Cells.length; i++) {
+			for(int j = 0; j < Cells[i].length; j++) {
+				Cells[i][j] = new Cell(x, y, cellSize);
+				x += cellSize;
+				y += cellSize;
+				
+			}
+			
+		}
 		
 	}
 	
 	public void randomizeCells() {
 		//4. Iterate through each cell and randomly set each
 		//   cell's isAlive memeber to true of false
+		for(int i = 0; i < Cells.length; i++) {
+			for(int j = 0; j < Cells[i].length; j++) {
+				int r = new Random().nextInt(1);
+
+				if(r == 0) {
+					Cells[i][j].isAlive = false;
+				}else {
+					Cells[i][j].isAlive = true;
+				}
+				
+			}
+			
+		}
 		
 		repaint();
 	}
 	
 	public void clearCells() {
 		//5. Iterated through the cells and set them all to dead.
-		
+		for(int i = 0; i < Cells.length; i++) {
+			for(int j = 0; j < Cells[i].length; j++) {
+				Cells[i][j].isAlive = false;
+				
+			}
+			
+		}
 		repaint();
 	}
 	
@@ -66,7 +97,13 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 	@Override
 	public void paintComponent(Graphics g) {
 		//6. Iterate through the cells and draw them all
-		
+		for(int i = 0; i < Cells.length; i++) {
+			for(int j = 0; j < Cells[i].length; j++) {
+				Cells[i][j].draw(g);
+				
+			}
+			
+		}
 		
 		
 		// draws grid
@@ -75,10 +112,37 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 	}
 	
 	//advances world one step
+	
+	int countN(Cell[][] c, int x, int y){
+		int row = x-1;
+		int col = y-1;
+		int n = 0;
+		for(int i = 0; i<3; i++) {
+			for(int j = 0; j<3; j++) {
+				if(row + i < 0 || row + i >= 3) {
+					continue;
+				}else if(col + j < 0 || col + j >= 3) {
+					continue;
+				}else if(col +j == i || col + j == i){
+					continue;
+				}else if( c[row+i][col+j].isAlive) {
+					n++;
+				}
+			
+			}
+		}
+		return n;
+	}
 	public void step() {
 		//7. iterate through cells and get their neighbors
-	
-		
+		for(int i = 0; i < Cells.length; i++){
+			for(int j = 0; j < Cells[i].length; j++) {
+				int nCount = countN(Cell[][], i, j);
+				if(nCount < 2 || nCount > 3) {
+					
+				}
+			}
+		}
 		//8. check if each cell should live or die
 	
 		
