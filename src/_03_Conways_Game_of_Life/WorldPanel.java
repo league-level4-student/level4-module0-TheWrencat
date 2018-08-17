@@ -137,8 +137,11 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		//7. iterate through cells and get their neighbors
 		for(int i = 0; i < Cells.length; i++){
 			for(int j = 0; j < Cells[i].length; j++) {
-				int nCount = countN(Cell[][], i, j);
+				int nCount = countN(Cells[][], i, j);
+				boolean LD = true;
 				if(nCount < 2 || nCount > 3) {
+					LD = false;
+				}else if(nCount == 2 || nCount == 3 && Cells[i][j].isAlive) {
 					
 				}
 			}
