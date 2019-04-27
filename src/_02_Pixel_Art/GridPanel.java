@@ -6,7 +6,9 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-public class GridPanel extends JPanel {
+import java.io.Serializable;
+
+public class GridPanel extends JPanel implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private int windowWidth;

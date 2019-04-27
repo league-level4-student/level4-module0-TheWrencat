@@ -145,26 +145,25 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == saveImage) {
-
-			try (FileOutputStream fos = new FileOutputStream(new File("saved data"));
-					ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-				oos.writeObject(gp);
+			//saving
+			try (FileOutputStream fileOutput = new FileOutputStream(new File("saved.dat"));
+					ObjectOutputStream objectOutput = new ObjectOutputStream(fileOutput)) {
+				objectOutput.writeObject(gp);
 			} catch (IOException f) {
 				f.printStackTrace();
 			}
 		}
 		if (e.getSource() == loadImage) {
-			try (FileInputStream fis = new FileInputStream(new File("saved data"));
-					ObjectInputStream ois = new ObjectInputStream(fis)) {
-				for (int i = 0; i < gp.pixelArray.length; i++) {
-					for (int j = 0; j < gp.pixelArray[i].length; j++) {
-						gp.pixelArray[i][j] = ois.readObject();
-					}
-				}
-
-			} catch (IOException a) {
-				a.printStackTrace();
+			//load
+			try (FileInputStream fileInput = new FileInputStream(new File("saved.dat"));
+					ObjectInputStream objectInput = new ObjectInputStream(fileInput)) {
+							GridPanel gp2 = (GridPanel) objectInput.readObject();
+							gp.pixelArray = gp2.pixelArray;
+							gp.repaint();
+			} catch (IOException | ClassNotFoundException e1) {
+				e1.printStackTrace();
 			}
+			
 		}
 
 	}
